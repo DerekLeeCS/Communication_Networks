@@ -3,7 +3,6 @@ import socket
 
 # Wait LIM seconds for a response
 LIM = 1
-#socket.settimeout(5)
 
 if __debug__:
 	host = 'github.com'
@@ -15,11 +14,15 @@ else:
 	ports = [ x for x in
 			input( "Please enter the list of ports to scan: " ).split(',') ]
 
+# Simple HTTP Request
+request = "Get / HTTP/1.1\r\nHost:" + host + "\r\n\r\n"
+
 for port in ports:
 
+	s = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
+	s.settimeout(LIM)
+
 	try:
-		s = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
-		s.settimeout(LIM)
 		res = s.connect_ex( (host,port) )
 
 		if res == 0:
@@ -28,7 +31,16 @@ for port in ports:
 		else:
 			print( "Port " + "#" + str(port) + ": Connection failed." )
 
+	except socket.error:
+		try:
+			s.send( request.encode() )
+			print( "Port " + "#" + str(port) + ": " +
+#				s.recv(4096).decode().rstrip() )
+				"HTTP Request Successful" )
+		except:
+			print( "Port " + "#" + str(port) + ": ???" )
+
+	finally:
 		s.close()
 
-	except socket.error:
-		print( "Port " + "#" + str(port) + ": ???" )
+
