@@ -5,13 +5,13 @@ PORT_INFO = "/etc/services"
 
 # Get input file
 if __debug__:
-	fileIn = '2-11_nmap.pcap'
+	fileIn = '2-20_nmap.pcap'
 else:
 	fileIn = input( "Please enter the name of the pcap file: " )
 
 parse = [	'tshark', '-r', fileIn, '-Y', 'tcp',
 		'-T', 'fields', '-e', 'tcp.srcport',
-		'-e', 'tcp.dstport', '-e', 'tcp.ack']
+		'-e', 'tcp.dstport', '-e', 'tcp.ack'	]
 
 # Run Process
 proc = subprocess.run( args=parse, capture_output=True )

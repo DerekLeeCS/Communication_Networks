@@ -11,7 +11,7 @@ if __debug__:
 #	ports = [ 21,22,23,25,80,110,139,443,445,3389 ]
 else:
 	host = input( "Please enter the target host: " )
-	ports = [ x for x in
+	ports = [ int(x) for x in
 			input( "Please enter the list of ports to scan: " ).split(',') ]
 
 # Simple HTTP Request
@@ -22,23 +22,23 @@ for port in ports:
 	s = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
 	s.settimeout(LIM)
 
+	print( "Port " + "#" + str(port) + ": ", end="" )
+
 	try:
 		res = s.connect_ex( (host,port) )
 
 		if res == 0:
-			print( "Port " + "#" + str(port) + ": " +
-				s.recv(4096).decode().rstrip() )
+			s.recv(4096)
+			print( "SSH Successful." )
 		else:
-			print( "Port " + "#" + str(port) + ": Connection failed." )
+			print( "Connection failed." )
 
 	except socket.error:
 		try:
 			s.send( request.encode() )
-			print( "Port " + "#" + str(port) + ": " +
-#				s.recv(4096).decode().rstrip() )
-				"HTTP Request Successful" )
+			print( "HTTP Request Successful." )
 		except:
-			print( "Port " + "#" + str(port) + ": ???" )
+			print( "???" )
 
 	finally:
 		s.close()
