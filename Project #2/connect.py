@@ -42,5 +42,3 @@ for port in ports:
 
 	finally:
 		s.close()
-
-

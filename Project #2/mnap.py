@@ -7,7 +7,7 @@ if __debug__:
 	pcapOut = 'out.pcap'
 else:
 	host = input( "Please enter the name of the target host: " )
-	ports = [ x for x in
+	ports = [ int(x) for x in
 		input( "Please enter the list of ports to scan: " ).split(',') ]
 	pcapOut = input( "Please enter the name of the pcap file: " )
 	print( '-'*50 )
