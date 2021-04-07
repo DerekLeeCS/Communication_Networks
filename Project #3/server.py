@@ -23,17 +23,21 @@ def connect(path):
 
     return connection
 
+
 def drop(conn):
     cur = conn.cursor()
     cur.execute(SQL_DROP_MSG)
+
 
 def create(conn):
     cur = conn.cursor()
     cur.execute(SQL_CREATE_MSG)
 
+
 conn = connect( os.path.join( os.getcwd(), "storage.db" ) )
 drop(conn)
 create(conn)
+
 
 class GP(BaseHTTPRequestHandler):
 
@@ -53,7 +57,7 @@ class GP(BaseHTTPRequestHandler):
         # print( self.path )
         # print( params )
 
-        self.wfile.write(b"<html><body><h1>Get Request Received!</h1></body></html>")
+        # self.wfile.write(b"<html><body><h1>Get Request Received!</h1></body></html>")
 
         # Get messages
         print( "RETRIEVING" )
@@ -65,6 +69,7 @@ class GP(BaseHTTPRequestHandler):
             messages.append( {'sender': row[1], 'value': row[2]} )
         jsonObj = {'response': {'user': name, 'messages': messages} }
         print( json.dumps(jsonObj, indent=3) )
+        print( json.loads( json.dumps(jsonObj, indent=3) ) )
         self.wfile.write( json.dumps(jsonObj, indent=3).encode() )
 
 
@@ -84,7 +89,7 @@ class GP(BaseHTTPRequestHandler):
         # Insert into DB
         print( "INSERTING" )
         self.insert( receiver, sender, message )
-        self.wfile.write(b"<html><body><h1>POST Request Received!</h1></body></html>")
+        # self.wfile.write(b"<html><body><h1>POST Request Received!</h1></body></html>")
 
 
     def insert(self, receiver, sender, message):
