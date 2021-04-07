@@ -1,4 +1,5 @@
-
 *.docx
 *.pcap
 *.txt
+*.pem
+*.db
