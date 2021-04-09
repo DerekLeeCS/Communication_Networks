@@ -11,6 +11,7 @@ SQL_CREATE_MSG =    "CREATE TABLE IF NOT EXISTS messages( " + \
                         "sender TEXT " +                "NOT NULL, " + \
                         "value TEXT " +                 "NOT NULL " + \
                     ");"
+PORT_NUM = 8000
 
 
 def connect(path):
@@ -54,10 +55,6 @@ class GP(BaseHTTPRequestHandler):
     def do_GET(self):
         self._set_headers()
         params = parse_qs(self.path[2:])
-        # print( self.path )
-        # print( params )
-
-        # self.wfile.write(b"<html><body><h1>Get Request Received!</h1></body></html>")
 
         # Get messages
         print( "RETRIEVING" )
@@ -89,7 +86,6 @@ class GP(BaseHTTPRequestHandler):
         # Insert into DB
         print( "INSERTING" )
         self.insert( receiver, sender, message )
-        # self.wfile.write(b"<html><body><h1>POST Request Received!</h1></body></html>")
 
 
     def insert(self, receiver, sender, message):
@@ -105,10 +101,10 @@ class GP(BaseHTTPRequestHandler):
         return rows
 
 
-def run(server_class=HTTPServer, handler_class=GP, port=80):
+def run(server_class=HTTPServer, handler_class=GP, port=PORT_NUM):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    print( 'Server running at localhost:80...' )
+    print( 'Server running at localhost:' + str(PORT_NUM) + '...' )
     httpd.serve_forever()
 
 run()

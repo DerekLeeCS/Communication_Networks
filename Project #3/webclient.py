@@ -1,6 +1,8 @@
 import requests
 
-link = 'http://localhost:80'
+PORT_NUM = 8000
+IP = '3-138-141-72'
+LINK = 'http://ec2-' + IP + '.us-east-2.compute.amazonaws.com:' + str(PORT_NUM) 
 
 if __debug__:
     username = 'josh'
@@ -10,7 +12,7 @@ else:
 # GET request
 def get(user):
     params = {'user':user}
-    r = requests.get(link, params=params)
+    r = requests.get(LINK, params=params)
     return r
 
 
@@ -30,7 +32,7 @@ def printGet(parsed):
 # POST request
 def post(sender, receiver, message):
     params = {'sender':sender, 'receiver':receiver, 'message':message}
-    r = requests.post(link, data=params)
+    r = requests.post(LINK, data=params)
     return r
 
 
@@ -59,7 +61,7 @@ if __name__ == "__main__":
         elif command.split(':')[0] == 'send' and len(command.split(':')) == 3:
             _, receiver, msg = command.split(':')
             post(username, receiver, msg)
-            print("Message Sent.")
+            print("Message Sent.", end="\n\n")
 
         elif command == 'quit':
             exit()
