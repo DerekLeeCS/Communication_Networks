@@ -1,13 +1,10 @@
 import requests
 
-PORT_NUM = 8000
+PORT_NUM = 80
 IP = '3-138-141-72'
 LINK = 'http://ec2-' + IP + '.us-east-2.compute.amazonaws.com:' + str(PORT_NUM) 
 
-if __debug__:
-    username = 'josh'
-else:
-    username = input("Please enter your username: ")
+username = input("Please enter your username: ")
 
 # GET request
 def get(user):
@@ -45,7 +42,7 @@ if __name__ == "__main__":
     while True:
 
         command = input( "Please enter a command: " )
-        
+
         if command == 'refresh':
 
             # GET the messages again
@@ -54,7 +51,7 @@ if __name__ == "__main__":
             # Find the difference (new elements)
             unseen = new-seen
             printGet(unseen)
-            
+
             # Update seen
             seen = seen.union(new)
 

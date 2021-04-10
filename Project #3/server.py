@@ -11,7 +11,7 @@ SQL_CREATE_MSG =    "CREATE TABLE IF NOT EXISTS messages( " + \
                         "sender TEXT " +                "NOT NULL, " + \
                         "value TEXT " +                 "NOT NULL " + \
                     ");"
-PORT_NUM = 8000
+PORT_NUM = 80
 
 
 def connect(path):
@@ -60,13 +60,15 @@ class GP(BaseHTTPRequestHandler):
         print( "RETRIEVING" )
         name = params['user'][0]
         rows = self.select(name)
-        print(name,rows)
+
+        # Store messages in json
         messages = []
         for row in rows:
             messages.append( {'sender': row[1], 'value': row[2]} )
         jsonObj = {'response': {'user': name, 'messages': messages} }
         print( json.dumps(jsonObj, indent=3) )
-        print( json.loads( json.dumps(jsonObj, indent=3) ) )
+        
+        # Return the json object
         self.wfile.write( json.dumps(jsonObj, indent=3).encode() )
 
 
